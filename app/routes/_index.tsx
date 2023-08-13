@@ -3,11 +3,11 @@ import { json } from "@remix-run/node"
 import { useLoaderData, useNavigation } from "@remix-run/react"
 import clsx from "clsx"
 import { useMemo } from "react"
-import { getJson } from "serpapi"
 import { SearchBar } from "~/components/SearchBar"
 import { OrganicSearchResult } from "~/components/SearchResult"
 import { Spinner } from "~/components/Spinner"
-import type { OrganicResult, SerpResponse } from "~/types/serpapi"
+import type { OrganicResult } from "~/api/serpapi"
+import { search } from "~/api/search"
 
 export async function loader({ request }: LoaderArgs) {
     let url = new URL(request.url)
@@ -16,12 +16,11 @@ export async function loader({ request }: LoaderArgs) {
     let results: OrganicResult[] = []
 
     if (query?.length) {
-        let { organic_results } = (await getJson("google", {
+        results = await search({
+            source: "google",
             q: query,
-            api_key: process.env.API_KEY!,
             num: 40,
-        })) as SerpResponse
-        results = organic_results
+        }).then(res => res.organic_results)
     }
 
     return json({ results, query })

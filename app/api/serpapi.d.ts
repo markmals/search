@@ -1,4 +1,4 @@
-export interface SerpResponse {
+export interface SearchResponse {
     search_metadata: {
         id: string
     }
@@ -7,7 +7,7 @@ export interface SerpResponse {
         organic_results_state: string
         query_displayed: string
         total_results: number
-        menu_items: any[]
+        // menu_items: any[]
     }
 
     recipes_results: RecipeResult[]
@@ -20,10 +20,10 @@ export interface SerpResponse {
             altitude: number
         }
     }
-    local_results: { places: any[] }
+    // local_results: { places: any[] }
     knowledge_graph: {}
-    inline_images: any[]
-    related_questions: any[]
+    // inline_images: any[]
+    // related_questions: any[]
     organic_results: OrganicResult[]
 }
 
