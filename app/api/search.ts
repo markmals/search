@@ -26,5 +26,10 @@ export interface YouTubeSearchOptions {
 }
 
 export async function search({ source, ...options }: SearchOptions) {
-    return (await getJson(source, { ...options, api_key: process.env.API_KEY! })) as SearchResponse
+    return (await getJson(source, {
+        ...options,
+        // hard-code the locale to US
+        gl: "us",
+        api_key: process.env.API_KEY!,
+    })) as SearchResponse
 }
