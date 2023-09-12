@@ -1,14 +1,14 @@
-import type { OrganicResult } from "~/types/serpapi"
+import type { OrganicResult } from "~/api/serpapi"
 
 export function OrganicSearchResult({ data: result }: { data: OrganicResult }) {
     return (
-        <div className="flex flex-col font-sans">
+        <li className="flex flex-col font-sans">
             <div className="mb-2 flex flex-row items-center gap-1">
                 {/* TODO: Placeholder favicon */}
                 <img
-                    className="h-4 w-4"
-                    src={result.favicon}
                     alt={`Favicon for ${result.source}`}
+                    className="h-4 w-4"
+                    src={result.favicon ?? "/favicon.svg"}
                 />
                 <span className="text-sm text-emerald-900 dark:text-emerald-600">
                     {result.displayed_link}
@@ -22,7 +22,7 @@ export function OrganicSearchResult({ data: result }: { data: OrganicResult }) {
                 {result.title}
             </a>
 
-            <div className="text-gray-700 dark:text-gray-300/80">{result.snippet}</div>
-        </div>
+            <div className="text-zinc-700 dark:text-zinc-300/80">{result.snippet}</div>
+        </li>
     )
 }

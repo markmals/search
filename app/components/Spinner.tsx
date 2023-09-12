@@ -2,8 +2,8 @@ export function Spinner() {
     return (
         <span className="flex w-full items-center justify-center text-sm font-medium" role="status">
             <svg
-                className="mr-2 h-7 w-7 animate-spin fill-blue-600 text-gray-200 dark:text-gray-700"
                 aria-hidden="true"
+                className="mr-2 h-7 w-7 animate-spin fill-blue-600 text-zinc-200 dark:text-zinc-700"
                 fill="none"
                 viewBox="0 0 100 101"
             >
