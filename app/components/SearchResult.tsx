@@ -6,7 +6,7 @@ export function OrganicSearchResult({ data: result }: { data: OrganicResult }) {
             <div className="mb-2 flex flex-row items-center gap-1">
                 {/* TODO: Placeholder favicon */}
                 <img
-                    alt={`Favicon for ${result.source}`}
+                    alt={result.favicon ? `Favicon for ${result.source}` : "Missing result favicon"}
                     className="h-4 w-4"
                     src={result.favicon ?? "/favicon.svg"}
                 />
@@ -16,7 +16,7 @@ export function OrganicSearchResult({ data: result }: { data: OrganicResult }) {
             </div>
 
             <a
-                className="mb-1 text-blue-700 visited:text-blue-800 hover:underline dark:text-blue-500 dark:visited:text-blue-600"
+                className="mb-1 text-blue-700 visited:text-purple-800 hover:underline dark:text-blue-500 dark:visited:text-purple-600"
                 href={result.link}
             >
                 {result.title}

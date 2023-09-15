@@ -25,7 +25,6 @@ export async function loader({ request }: LoaderArgs) {
         }).then(res => res.organic_results)
     }
 
-    // throw new Error("Server timeout.")
     return defer({ results, query })
 }
 
@@ -76,7 +75,6 @@ export function ErrorBoundary() {
         <div className="flex h-screen flex-col justify-center px-4 py-6 text-center dark:text-zinc-200 sm:px-64 sm:py-8">
             <ExclamationTriangleIcon className="mx-auto h-12 w-12 opacity-40" />
             <h3 className="mt-2 text-sm font-semibold">Error!</h3>
-            {/* <p className="mt-1 text-sm opacity-50">Sorry, an unexpected error has occurred.</p> */}
             <p className="mt-1 text-sm opacity-50">
                 <i>{message.replace("Error: ", "")}</i>
             </p>
