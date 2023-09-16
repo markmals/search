@@ -2,7 +2,6 @@ import type { LoaderArgs } from "@remix-run/node"
 import { defer } from "@remix-run/node"
 import { Await, useLoaderData, useNavigation } from "@remix-run/react"
 import { Suspense, useMemo } from "react"
-import { fetchFavicons } from "~/api/favicons"
 import { getQuery } from "~/api/query"
 import { search } from "~/api/search"
 import type { OrganicResult, SearchResponse } from "~/api/serpapi"
@@ -21,7 +20,9 @@ export async function loader({ request }: LoaderArgs) {
             q: query,
             nfpr: verbatim ? 1 : 0,
             num: 40,
-        }).then(fetchFavicons)
+        })
+
+        // .then(fetchFavicons)
 
         organicResults = results.then(res => res.organic_results)
         info = results.then(res => res.search_information)
