@@ -16,6 +16,7 @@ export namespace SpellCheck {
 //                 : null
 
 export function SpellCheck({ info }: SpellCheck.Props) {
+    console.log(info)
     let searchVerbatim = useMemo(() => {
         if (info.query_displayed) {
             return new URLSearchParams({
@@ -28,14 +29,14 @@ export function SpellCheck({ info }: SpellCheck.Props) {
     }, [info.query_displayed])
 
     let searchCorrected = useMemo(() => {
-        if (info.showing_results_for) {
+        if (info.spelling_fix) {
             return new URLSearchParams({
-                q: info.showing_results_for,
+                q: info.spelling_fix,
             }).toString()
         }
 
         return null
-    }, [info.showing_results_for])
+    }, [info.spelling_fix])
 
     if (!searchVerbatim || !searchCorrected) {
         return null
@@ -58,7 +59,7 @@ export function SpellCheck({ info }: SpellCheck.Props) {
                                 className="font-bold hover:underline"
                                 to={{ search: searchCorrected }}
                             >
-                                {info.showing_results_for}
+                                {info.spelling_fix}
                             </Link>
                         </p>
                         <p className="mt-3 text-sm sm:ml-6 sm:mt-0">
