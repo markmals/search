@@ -1,18 +1,20 @@
 import { getJson } from "serpapi"
-import type { SearchResponse } from "./serpapi"
+import type { SearchResponse, SearchResponseWithImages } from "./serpapi"
 
-export type SearchOptions = GoogleSearchOptions | YouTubeSearchOptions
+export type SearchOptions = GoogleSearchOptions | GoogleImageSearchOptions | YouTubeSearchOptions
 
-export interface GoogleSearchOptions {
-    source:
-        | "google"
-        | "google_maps"
-        | "google_images"
-        | "google_autocomplete"
-        | "google_reverse_image"
+export interface BaseGoogleSearchOptions {
     q: string
     num?: number
     start?: number
+}
+
+export interface GoogleSearchOptions extends BaseGoogleSearchOptions {
+    source: "google"
+}
+
+export interface GoogleImageSearchOptions extends BaseGoogleSearchOptions {
+    source: "google_images"
 }
 
 export interface EbaySearchOptions {}
@@ -25,11 +27,13 @@ export interface YouTubeSearchOptions {
     search_query: string
 }
 
-export async function search({ source, ...options }: SearchOptions) {
-    return (await getJson(source, {
+export function search(options: GoogleSearchOptions): Promise<SearchResponse>
+export function search(options: GoogleImageSearchOptions): Promise<SearchResponseWithImages>
+export async function search({ source, ...options }: SearchOptions): Promise<any> {
+    return await getJson(source, {
         ...options,
         // hard-code the locale to US
         gl: "us",
         api_key: process.env.API_KEY!,
-    })) as SearchResponse
+    })
 }

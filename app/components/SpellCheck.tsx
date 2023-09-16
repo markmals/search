@@ -41,7 +41,12 @@ export function SpellCheck({ info }: SpellCheck.Props) {
                             <Link className="font-bold hover:underline" to={{ search }}>
                                 {info.showing_results_for}
                             </Link>{" "}
-                            instead of <span className="font-bold">{info.query_displayed}</span>
+                            {info.query_displayed && (
+                                <>
+                                    instead of{" "}
+                                    <span className="font-bold">{info.query_displayed}</span>
+                                </>
+                            )}
                         </p>
                     </div>
                 </div>

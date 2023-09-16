@@ -5,7 +5,6 @@ export function OrganicSearchResult({ data: result }: { data: OrganicResult }) {
         <li className="flex w-full flex-row justify-between gap-8">
             <div className="flex flex-col font-sans">
                 <div className="mb-2 flex flex-row items-center gap-1">
-                    {/* TODO: Placeholder favicon */}
                     <img
                         alt={
                             result.favicon
