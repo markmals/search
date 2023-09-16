@@ -14,7 +14,7 @@ export function OrganicSearchResult({ data: result }: { data: OrganicResult }) {
                         className="h-4 w-4"
                         src={result.favicon ?? "/favicon.svg"}
                     />
-                    <span className="text-sm text-emerald-900 dark:text-emerald-600">
+                    <span className="truncate text-sm text-emerald-900 dark:text-emerald-600">
                         {result.displayed_link}
                     </span>
                 </div>
