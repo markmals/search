@@ -18,8 +18,6 @@ export function SearchBar() {
     let location = useLocation()
     let navigate = useNavigate()
 
-    console.log(tabs.find(tab => tab.route === location.pathname)?.name)
-
     return (
         <div className="px-4 sm:px-28 md:px-40 lg:px-60">
             {!isSearching && (

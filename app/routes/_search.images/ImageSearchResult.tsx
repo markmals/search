@@ -10,14 +10,12 @@ export function ImageSearchResult({ data: image }: ImageSearchResult.Props) {
     return (
         <li className="flex flex-col gap-1">
             <a className="focus:outline-none" href={image.original}>
-                <div className="h-40 w-40 rounded-lg bg-gray-100 object-cover focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                    <img
-                        alt={image.title}
-                        className="h-40 w-40 rounded-lg object-cover"
-                        src={image.thumbnail}
-                    />
-                    <span className="sr-only">View details for {image.title}</span>
-                </div>
+                <img
+                    alt={image.title}
+                    className="h-40 w-full rounded-lg object-cover"
+                    src={image.thumbnail}
+                />
+                <span className="sr-only">View details for {image.title}</span>
             </a>
             <div className="flex flex-row items-center gap-1">
                 {/* <img

@@ -10,7 +10,7 @@ import { Spinner } from "~/components/Spinner"
 import { ImageSearchResult } from "./ImageSearchResult"
 
 export async function loader({ request }: LoaderArgs) {
-    let query = getQuery(request)
+    let { q: query } = getQuery(request)
     let imageResults = Promise.resolve<ImageResult[]>([])
     let info = Promise.resolve<Partial<SearchResponse["search_information"]>>({})
 
@@ -44,7 +44,7 @@ export default function ImageResults() {
                     Image Search Results
                 </h2>
                 <Await resolve={info}>{info => <SpellCheck info={info} />}</Await>
-                <ul className="grid grid-cols-3 gap-x-4 gap-y-6 lg:grid-cols-4 xl:grid-cols-6">
+                <ul className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
                     <Await resolve={results}>
                         {results =>
                             results.map(result => (
