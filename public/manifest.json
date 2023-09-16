@@ -2,7 +2,6 @@
     "short_name": "Search",
     "name": "Search",
     "description": "A search engine",
-    "theme_color": "#3B82F6",
     "display": "standalone",
     "icons": [
         {
