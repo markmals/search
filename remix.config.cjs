@@ -2,6 +2,7 @@
 module.exports = {
     ignoredRouteFiles: ["**/.*"],
     serverModuleFormat: "cjs",
+    serverDependenciesToBundle: ["@formkit/auto-animate/react"],
     tailwind: true,
     future: {
         v2_dev: true,

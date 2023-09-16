@@ -3,8 +3,8 @@ import { Link, useLocation, useNavigate } from "@remix-run/react"
 import clsx from "clsx"
 
 const tabs = [
-    { name: "All Websites", route: "/", icon: GlobeAltIcon },
-    { name: "Images", route: "/images", icon: PhotoIcon },
+    { name: "All Websites", pathname: "/", icon: GlobeAltIcon },
+    { name: "Images", pathname: "/images", icon: PhotoIcon },
 ]
 
 export function SearchTabs() {
@@ -27,10 +27,10 @@ export function SearchTabs() {
                             search: location.search,
                         })
                     }}
-                    value={tabs.find(tab => tab.route === location.pathname)!.route}
+                    value={tabs.find(tab => tab.pathname === location.pathname)!.pathname}
                 >
                     {tabs.map(tab => (
-                        <option key={tab.name} value={tab.route}>
+                        <option key={tab.name} value={tab.pathname}>
                             {tab.name}
                         </option>
                     ))}
@@ -41,26 +41,28 @@ export function SearchTabs() {
                     <nav aria-label="Tabs" className="-mb-px flex space-x-8">
                         {tabs.map(tab => (
                             <Link
-                                aria-current={tab.route === location.pathname ? "page" : undefined}
-                                aria-disabled={tab.route === location.pathname}
+                                aria-current={
+                                    tab.pathname === location.pathname ? "page" : undefined
+                                }
+                                aria-disabled={tab.pathname === location.pathname}
                                 className={clsx(
-                                    tab.route === location.pathname
+                                    tab.pathname === location.pathname
                                         ? "border-blue-500 text-blue-600 dark:text-blue-500"
                                         : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:border-gray-100 dark:hover:text-gray-200",
                                     "group inline-flex items-center border-b-2 px-1 py-4 text-sm font-medium",
                                 )}
                                 key={tab.name}
                                 onClick={event => {
-                                    if (tab.route === location.pathname) {
+                                    if (tab.pathname === location.pathname) {
                                         event.preventDefault()
                                     }
                                 }}
-                                to={{ pathname: tab.route, search: location.search }}
+                                to={{ pathname: tab.pathname, search: location.search }}
                             >
                                 <tab.icon
                                     aria-hidden="true"
                                     className={clsx(
-                                        tab.route === location.pathname
+                                        tab.pathname === location.pathname
                                             ? "text-blue-600 dark:text-blue-500"
                                             : "text-gray-400 group-hover:text-gray-500 dark:text-gray-300 dark:group-hover:text-gray-200",
                                         "-ml-0.5 mr-2 h-5 w-5",

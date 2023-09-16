@@ -1,6 +1,8 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid"
 import { Form, useLoaderData, useLocation } from "@remix-run/react"
-import { useMemo, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
+import { usePrefersReducedMotion } from "~/lib/usePrefersReducedMotion"
 import type { loader } from "~/routes/_search._index/route"
 import { Button } from "../../components/Button"
 import { SearchTabs } from "./SearchTabs"
@@ -10,14 +12,29 @@ export function SearchBar() {
     let isSearching = useMemo(() => !!query?.length, [query])
     let inputRef = useRef<HTMLInputElement>(null)
     let location = useLocation()
+    let [animate, enableAnimations] = useAutoAnimate()
+
+    let shouldAnimate = usePrefersReducedMotion()!
+
+    useEffect(() => {
+        enableAnimations(shouldAnimate)
+    })
 
     return (
-        <div className="px-4 sm:px-28 md:px-40 lg:px-60">
-            {!isSearching && (
-                <h3 className="w-full text-center text-3xl font-bold dark:text-zinc-200">Search</h3>
-            )}
+        <div
+            className="sticky top-0 flex flex-col bg-white px-4 py-6 dark:bg-zinc-900 sm:px-28 md:px-40 lg:px-60"
+            ref={animate}
+        >
+            {/* FIXME: This animates weirdly */}
+            <div ref={animate}>
+                {!isSearching && (
+                    <h3 className="mb-2 w-full text-center text-3xl font-bold dark:text-zinc-200">
+                        Search
+                    </h3>
+                )}
+            </div>
 
-            <div className="sticky top-0 flex flex-col items-center gap-2 bg-white py-6 dark:bg-zinc-900">
+            <div className="flex flex-col items-center gap-2">
                 <Form
                     action={location.pathname}
                     className="flex w-full flex-row gap-2"
@@ -44,7 +61,7 @@ export function SearchBar() {
                     <Button type="submit">Search</Button>
                 </Form>
 
-                <SearchTabs />
+                {isSearching && <SearchTabs />}
             </div>
         </div>
     )

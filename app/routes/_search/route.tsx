@@ -20,7 +20,8 @@ export default function SearchLayout() {
     return (
         <div className={clsx("flex flex-col justify-center", isSearching ? "h-full" : "h-screen")}>
             <SearchBar />
-            {/* className="mt-8 pb-16" */}
+            {/* TODO: Animate these children using Framer Motion */}
+            {/* Can't use autoAnimate because it adds `position: relative` which messes up the search bar z-index */}
             <section aria-labelledby="search-results">
                 <Outlet />
             </section>
