@@ -27,13 +27,13 @@ export function ImageSearchResult({ data: image }: ImageSearchResult.Props) {
                         className="h-4 w-4"
                         src={result.favicon ?? "/favicon.svg"}
                     /> */}
-                <p className="line-clamp-1 text-sm text-emerald-900 dark:text-emerald-600">
+                <p className="line-clamp-1 text-sm text-emerald-800 dark:text-emerald-600">
                     {image.source}
                 </p>
             </div>
 
             <a
-                className="line-clamp-2 text-sm text-gray-900 visited:text-purple-900 hover:underline dark:text-gray-100 dark:visited:text-purple-300"
+                className="line-clamp-2 text-sm text-gray-700 visited:text-purple-900 hover:underline dark:text-gray-100 dark:visited:text-purple-300"
                 href={image.link}
             >
                 {image.title}
