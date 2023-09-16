@@ -11,6 +11,12 @@ export interface BaseGoogleSearchOptions {
 
 export interface GoogleSearchOptions extends BaseGoogleSearchOptions {
     source: "google"
+    /**
+     * Parameter defines the exclusion of results from an auto-corrected query that is
+     * spelled wrong. It can be set to 1 to exclude these results, or 0 to include them
+     * (default).
+     */
+    nfpr?: 0 | 1
 }
 
 export interface GoogleImageSearchOptions extends BaseGoogleSearchOptions {

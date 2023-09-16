@@ -9,19 +9,35 @@ export namespace SpellCheck {
     }
 }
 
+// info.showing_results_for
+// ? new URLSearchParams({
+//       q: info.showing_results_for,
+//   }).toString()
+//                 : null
+
 export function SpellCheck({ info }: SpellCheck.Props) {
-    let search = useMemo(
-        () =>
-            info.showing_results_for
-                ? new URLSearchParams({
-                      q: info.showing_results_for,
-                  }).toString()
-                : null,
+    let searchVerbatim = useMemo(() => {
+        if (info.query_displayed) {
+            return new URLSearchParams({
+                q: info.query_displayed,
+                v: "true",
+            }).toString()
+        }
 
-        [info.showing_results_for],
-    )
+        return null
+    }, [info.query_displayed])
 
-    if (!search) {
+    let searchCorrected = useMemo(() => {
+        if (info.showing_results_for) {
+            return new URLSearchParams({
+                q: info.showing_results_for,
+            }).toString()
+        }
+
+        return null
+    }, [info.showing_results_for])
+
+    if (!searchVerbatim || !searchCorrected) {
         return null
     }
 
@@ -38,15 +54,22 @@ export function SpellCheck({ info }: SpellCheck.Props) {
                     <div className="ml-3 flex-1 sm:flex sm:justify-between">
                         <p className="text-sm text-blue-700 dark:text-blue-400">
                             Showing results for{" "}
-                            <Link className="font-bold hover:underline" to={{ search }}>
+                            <Link
+                                className="font-bold hover:underline"
+                                to={{ search: searchCorrected }}
+                            >
                                 {info.showing_results_for}
-                            </Link>{" "}
-                            {info.query_displayed && (
-                                <>
-                                    instead of{" "}
-                                    <span className="font-bold">{info.query_displayed}</span>
-                                </>
-                            )}
+                            </Link>
+                        </p>
+                        <p className="mt-3 text-sm sm:ml-6 sm:mt-0">
+                            <Link
+                                className="whitespace-nowrap text-blue-700 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500"
+                                to={{ search: searchVerbatim }}
+                            >
+                                Search for <span className="font-bold">{info.query_displayed}</span>{" "}
+                                instead
+                                <span aria-hidden="true"> &rarr;</span>
+                            </Link>
                         </p>
                     </div>
                 </div>

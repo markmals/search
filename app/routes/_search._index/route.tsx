@@ -11,7 +11,7 @@ import { Spinner } from "~/components/Spinner"
 import { OrganicSearchResult } from "~/routes/_search._index/OrganicSearchResult"
 
 export async function loader({ request }: LoaderArgs) {
-    let query = getQuery(request)
+    let { q: query, v: verbatim } = getQuery(request)
     let organicResults = Promise.resolve<OrganicResult[]>([])
     let info = Promise.resolve<Partial<SearchResponse["search_information"]>>({})
 
@@ -19,6 +19,7 @@ export async function loader({ request }: LoaderArgs) {
         let results = search({
             source: "google",
             q: query,
+            nfpr: verbatim ? 1 : 0,
             num: 40,
         }).then(fetchFavicons)
 
@@ -26,11 +27,11 @@ export async function loader({ request }: LoaderArgs) {
         info = results.then(res => res.search_information)
     }
 
-    return defer({ results: organicResults, info, query })
+    return defer({ results: organicResults, info, query, verbatim })
 }
 
 export default function Index() {
-    let { results, info } = useLoaderData<typeof loader>()
+    let { results, info, verbatim } = useLoaderData<typeof loader>()
     let navigation = useNavigation()
     let isLoading = useMemo(() => navigation.state === "loading", [navigation])
 
@@ -44,7 +45,7 @@ export default function Index() {
                 <h2 className="sr-only" id="results-heading">
                     Search Results
                 </h2>
-                <Await resolve={info}>{info => <SpellCheck info={info} />}</Await>
+                <Await resolve={info}>{info => !verbatim && <SpellCheck info={info} />}</Await>
                 <ul className="flex flex-col gap-8">
                     <Await resolve={results}>
                         {results =>
