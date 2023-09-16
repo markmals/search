@@ -22,6 +22,8 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
 export const links: LinksFunction = () => [
     { rel: "stylesheet", href: styles },
     { rel: "icon", type: "image/svg+xml", href: "favicon.svg" },
+    { rel: "apple-touch-icon", href: "icon.png" },
+    { rel: "manifest", href: "manifest.json" },
 ]
 
 export default function App() {
