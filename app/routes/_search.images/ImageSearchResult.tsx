@@ -27,7 +27,9 @@ export function ImageSearchResult({ data: image }: ImageSearchResult.Props) {
                         className="h-4 w-4"
                         src={result.favicon ?? "/favicon.svg"}
                     /> */}
-                <p className="text-sm text-emerald-900 dark:text-emerald-600">{image.source}</p>
+                <p className="line-clamp-1 text-sm text-emerald-900 dark:text-emerald-600">
+                    {image.source}
+                </p>
             </div>
 
             <a
