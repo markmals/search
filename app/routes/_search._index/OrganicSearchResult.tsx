@@ -32,7 +32,7 @@ export function OrganicSearchResult({ data: result }: { data: OrganicResult }) {
             {result.thumbnail && (
                 <img
                     alt={`${result.title} thumbnail`}
-                    className="max-h-full max-w-full rounded object-cover"
+                    className="hidden max-h-full max-w-full rounded object-cover sm:block"
                     src={result.thumbnail}
                 />
             )}
