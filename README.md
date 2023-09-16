@@ -5,8 +5,8 @@ A bespoke search client built with [SerpApi](https://serpapi.com/) and [Remix](h
 ## Features
 
 - [x] Clean search results page that only displays organic results
+- [x] "Did you mean…?" support
 - [ ] Try to fetch missing favicons from the sites' `<head>` using the `facebookexternalhit/1.1` user agent
-- [ ] "Did you mean…?" support
 - [ ] Add image thumbnails to search results, if they exist
 - Narrow search scope down by site with a GUI (e.g. "only search Wikipedia")
     - [ ] Google Image search (inspiration: [1](https://dribbble.com/shots/828786-Google), [2](https://cdn.dribbble.com/users/47552/screenshots/17615415/media/3a38bc7ccc47c5bacf66647ac65d35bd.png))

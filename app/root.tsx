@@ -1,5 +1,5 @@
+import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
-import type { LoaderArgs, LinksFunction, V2_MetaFunction } from "@remix-run/node"
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react"
 import styles from "./styles/index.css"
 
@@ -26,7 +26,7 @@ export const links: LinksFunction = () => [
 
 export default function App() {
     return (
-        <html className="bg-white dark:bg-zinc-900" lang="en">
+        <html className="bg-white text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300/80" lang="en">
             <head>
                 <meta charSet="utf-8" />
                 <meta content="width=device-width,initial-scale=1" name="viewport" />

@@ -1,65 +1,58 @@
+import { ArrowPathIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid"
 import type { LoaderArgs } from "@remix-run/node"
 import { defer } from "@remix-run/node"
-import { Await, useLoaderData, useNavigate, useNavigation, useRouteError } from "@remix-run/react"
+import { useLoaderData, useNavigate, useRouteError } from "@remix-run/react"
 import clsx from "clsx"
-import { Suspense, useMemo } from "react"
-import { SearchBar } from "~/components/SearchBar"
-import { OrganicSearchResult } from "~/components/SearchResult"
-import { Spinner } from "~/components/Spinner"
-import type { OrganicResult } from "~/api/serpapi"
+import { Suspense, useEffect, useMemo } from "react"
 import { search } from "~/api/search"
-import { ArrowPathIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid"
+import type { OrganicResult, SearchResponse } from "~/api/serpapi"
 import { Button } from "~/components/Button"
+import { SearchBar } from "~/components/SearchBar"
+import { SearchResults } from "~/components/SearchResults"
+import { Spinner } from "~/components/Spinner"
 
 export async function loader({ request }: LoaderArgs) {
     let url = new URL(request.url)
     let query = url.searchParams.get("q")
 
+    let s = Promise.resolve<any>(null)
     let results = Promise.resolve<OrganicResult[]>([])
+    let info = Promise.resolve<SearchResponse["search_information"]>({} as any)
 
     if (query?.length) {
-        results = search({
+        s = search({
             source: "google",
             q: query,
             num: 40,
-        }).then(res => res.organic_results)
+        })
+
+        results = s.then(res => res.organic_results)
+        info = s.then(res => res.search_information)
     }
 
-    return defer({ results, query })
+    return defer({ results, info, query, s })
 }
 
 export default function Index() {
-    let { results, query } = useLoaderData<typeof loader>()
-    let navigation = useNavigation()
-    let isLoading = useMemo(() => navigation.state === "loading", [navigation])
+    let { query, s } = useLoaderData<typeof loader>()
     let isSearching = useMemo(() => !!query?.length, [query])
+
+    useEffect(() => {
+        s.then(console.log)
+    }, [s])
 
     return (
         <div
             className={clsx(
-                "flex flex-col justify-center px-4 pb-6 sm:px-64 sm:pb-8",
+                "flex flex-col justify-center px-4 pb-6 sm:px-28 sm:pb-8 md:px-40 lg:px-60",
                 isSearching ? "h-full" : "h-screen",
             )}
         >
             <SearchBar />
 
-            <ul className="flex flex-col gap-8">
-                {/* Duplicating this fallback element sucks, but it's intended behavior in Remix 😒 */}
-                {/* See: https://remix.run/docs/en/1.19.3/guides/streaming#when-does-the-fallback-render */}
-                <Suspense fallback={<Spinner />}>
-                    <Await resolve={results}>
-                        {results =>
-                            isLoading ? (
-                                <Spinner />
-                            ) : (
-                                results.map(result => (
-                                    <OrganicSearchResult data={result} key={result.link} />
-                                ))
-                            )
-                        }
-                    </Await>
-                </Suspense>
-            </ul>
+            <Suspense fallback={<Spinner />}>
+                <SearchResults />
+            </Suspense>
         </div>
     )
 }

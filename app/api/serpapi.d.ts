@@ -5,9 +5,12 @@ export interface SearchResponse {
 
     search_information: {
         organic_results_state: string
-        query_displayed: string
         total_results: number
         // menu_items: any[]
+
+        query_displayed?: string
+        spelling_fix?: string
+        showing_results_for?: string
     }
 
     recipes_results: RecipeResult[]

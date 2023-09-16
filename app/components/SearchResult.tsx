@@ -22,7 +22,7 @@ export function OrganicSearchResult({ data: result }: { data: OrganicResult }) {
                 {result.title}
             </a>
 
-            <div className="text-zinc-700 dark:text-zinc-300/80">{result.snippet}</div>
+            {result.snippet}
         </li>
     )
 }
