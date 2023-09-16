@@ -3,7 +3,8 @@ import type { LoaderArgs } from "@remix-run/node"
 import { defer } from "@remix-run/node"
 import { useLoaderData, useNavigate, useRouteError } from "@remix-run/react"
 import clsx from "clsx"
-import { Suspense, useEffect, useMemo } from "react"
+import { Suspense, useMemo } from "react"
+import { fetchFavicons } from "~/api/favicons"
 import { search } from "~/api/search"
 import type { OrganicResult, SearchResponse } from "~/api/serpapi"
 import { Button } from "~/components/Button"
@@ -15,31 +16,26 @@ export async function loader({ request }: LoaderArgs) {
     let url = new URL(request.url)
     let query = url.searchParams.get("q")
 
-    let s = Promise.resolve<any>(null)
-    let results = Promise.resolve<OrganicResult[]>([])
-    let info = Promise.resolve<SearchResponse["search_information"]>({} as any)
+    let organicResults = Promise.resolve<OrganicResult[]>([])
+    let info = Promise.resolve<Partial<SearchResponse["search_information"]>>({})
 
     if (query?.length) {
-        s = search({
+        let results = search({
             source: "google",
             q: query,
             num: 40,
-        })
+        }).then(fetchFavicons)
 
-        results = s.then(res => res.organic_results)
-        info = s.then(res => res.search_information)
+        organicResults = results.then(res => res.organic_results)
+        info = results.then(res => res.search_information)
     }
 
-    return defer({ results, info, query, s })
+    return defer({ results: organicResults, info, query })
 }
 
 export default function Index() {
-    let { query, s } = useLoaderData<typeof loader>()
+    let { query } = useLoaderData<typeof loader>()
     let isSearching = useMemo(() => !!query?.length, [query])
-
-    useEffect(() => {
-        s.then(console.log)
-    }, [s])
 
     return (
         <div
