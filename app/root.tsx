@@ -1,6 +1,8 @@
 import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react"
+import { useEffect, useState } from "react"
+import { useColorScheme } from "./lib/useColorScheme"
 import styles from "./styles/index.css"
 
 export function loader({ request }: LoaderArgs) {
@@ -27,11 +29,19 @@ export const links: LinksFunction = () => [
 ]
 
 export default function App() {
+    let colorScheme = useColorScheme()
+    let [theme, setTheme] = useState("#fff")
+
+    useEffect(() => {
+        setTheme(colorScheme === "light" ? "#fff" : "#18181b")
+    }, [colorScheme])
+
     return (
         <html className="bg-white text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300/80" lang="en">
             <head>
                 <meta charSet="utf-8" />
                 <meta content="width=device-width,initial-scale=1" name="viewport" />
+                <meta content={theme} name="theme-color" />
                 <Meta />
                 <Links />
             </head>
