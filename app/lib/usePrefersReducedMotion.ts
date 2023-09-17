@@ -1,11 +1,5 @@
-import { useMemo } from "react"
+import { useMatchMedia } from "./useMatchMedia"
 
 export function usePrefersReducedMotion() {
-    return useMemo(() => {
-        if (globalThis.document) {
-            return window.matchMedia(`(prefers-reduced-motion: reduce)`).matches
-        }
-
-        return false
-    }, [])
+    return useMatchMedia(`(prefers-reduced-motion: reduce)`)
 }

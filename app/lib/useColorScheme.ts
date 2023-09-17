@@ -1,11 +1,7 @@
 import { useMemo } from "react"
+import { useMatchMedia } from "./useMatchMedia"
 
 export function useColorScheme(): "dark" | "light" {
-    return useMemo(() => {
-        if (globalThis.document) {
-            return window.matchMedia(`(prefers-color-scheme: dark)`).matches ? "dark" : "light"
-        }
-
-        return "light"
-    }, [])
+    let matches = useMatchMedia(`(prefers-color-scheme: dark)`)
+    return useMemo(() => (matches ? "dark" : "light"), [matches])
 }
