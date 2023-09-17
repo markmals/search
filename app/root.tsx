@@ -8,16 +8,15 @@ import styles from "./styles/index.css"
 export function loader({ request }: LoaderArgs) {
     let url = new URL(request.url)
     let query = url.searchParams.get("q")
-
     return json({ query })
 }
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
     { title: data?.query ? `${data.query} - Search` : "Search" },
-    // { property: "og:title", content: "Recommendations" },
+    // { property: "og:title", content: "" },
     // { property: "og:type", content: "website" },
-    // { property: "og:image", content: "/social-media-dark.png" },
-    // { property: "og:description", content: description },
+    // { property: "og:image", content: "/social-media.png" },
+    // { property: "og:description", content: "description" },
     // data ? { property: "og:url", content: data!.url } : {},
 ]
 

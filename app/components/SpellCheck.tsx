@@ -9,14 +9,7 @@ export namespace SpellCheck {
     }
 }
 
-// info.showing_results_for
-// ? new URLSearchParams({
-//       q: info.showing_results_for,
-//   }).toString()
-//                 : null
-
 export function SpellCheck({ info }: SpellCheck.Props) {
-    console.log(info)
     let searchVerbatim = useMemo(() => {
         if (info.query_displayed) {
             return new URLSearchParams({
