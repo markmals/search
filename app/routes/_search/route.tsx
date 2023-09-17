@@ -1,5 +1,5 @@
 import { ArrowPathIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid"
-import type { LoaderArgs } from "@remix-run/node"
+import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Outlet, useLoaderData, useNavigate, useRouteError } from "@remix-run/react"
 import clsx from "clsx"
@@ -7,7 +7,7 @@ import { useMemo } from "react"
 import { Button } from "~/components/Button"
 import { SearchBar } from "~/routes/_search/SearchBar"
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
     let url = new URL(request.url)
     let query = url.searchParams.get("q")
     return json({ query })

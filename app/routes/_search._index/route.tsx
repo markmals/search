@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node"
+import type { LoaderFunctionArgs } from "@remix-run/node"
 import { defer } from "@remix-run/node"
 import { Await, useLoaderData, useNavigation } from "@remix-run/react"
 import { Suspense, useMemo } from "react"
@@ -9,7 +9,7 @@ import { SpellCheck } from "~/components/SpellCheck"
 import { Spinner } from "~/components/Spinner"
 import { OrganicSearchResult } from "~/routes/_search._index/OrganicSearchResult"
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
     let { q: query, v: verbatim } = getQuery(request)
     let organicResults = Promise.resolve<OrganicResult[]>([])
     let info = Promise.resolve<Partial<SearchResponse["search_information"]>>({})

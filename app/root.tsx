@@ -1,17 +1,17 @@
-import type { LinksFunction, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
+import type { LinksFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react"
 import { useEffect, useState } from "react"
 import { useColorScheme } from "./lib/useColorScheme"
 import styles from "./styles/index.css"
 
-export function loader({ request }: LoaderArgs) {
+export function loader({ request }: LoaderFunctionArgs) {
     let url = new URL(request.url)
     let query = url.searchParams.get("q")
     return json({ query })
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
+export const meta: MetaFunction<typeof loader> = ({ data }) => [
     { title: data?.query ? `${data.query} - Search` : "Search" },
     // { property: "og:title", content: "" },
     // { property: "og:type", content: "website" },
