@@ -17,6 +17,10 @@ export function SearchBar() {
     let shouldAnimate = usePrefersReducedMotion()!
 
     useEffect(() => {
+        document.querySelector<HTMLInputElement>("#q")!.value = query ?? ""
+    }, [query])
+
+    useEffect(() => {
         enableAnimations(shouldAnimate)
     })
 
