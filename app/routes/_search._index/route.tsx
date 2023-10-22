@@ -24,7 +24,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
         // .then(fetchFavicons)
 
-        organicResults = results.then(res => res.organic_results)
+        organicResults = results.then(res => res.organic_results ?? [])
         info = results.then(res => res.search_information)
     }
 
@@ -49,6 +49,7 @@ export default function Index() {
                 <Await resolve={info}>{info => !verbatim && <SpellCheck info={info} />}</Await>
                 <ul className="flex flex-col gap-8">
                     <Await resolve={results}>
+                        {/* TODO: "No Results Found" is results.length === 0 */}
                         {results =>
                             results.map(result => (
                                 <OrganicSearchResult data={result} key={result.link} />
