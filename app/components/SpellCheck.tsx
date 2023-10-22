@@ -31,6 +31,11 @@ export function SpellCheck({ info }: SpellCheck.Props) {
         return null
     }, [info.spelling_fix])
 
+    const orig = info.query_displayed?.split(" ")
+    const fixed = info.spelling_fix?.split(" ")
+    const incorrectWords = fixed?.filter(fix => !orig?.includes(fix))
+    const correctWords = orig?.filter(fix => !fixed?.includes(fix))
+
     if (!searchVerbatim || !searchCorrected) {
         return null
     }
@@ -48,20 +53,56 @@ export function SpellCheck({ info }: SpellCheck.Props) {
                     <div className="ml-3 flex-1 sm:flex sm:justify-between">
                         <p className="text-sm text-blue-700 dark:text-blue-400">
                             Showing results for{" "}
-                            <Link
-                                className="font-bold hover:underline"
-                                to={{ search: searchCorrected }}
-                            >
-                                {info.spelling_fix}
+                            <Link to={{ search: searchCorrected }}>
+                                &quot;
+                                <span className="hover:underline">
+                                    {fixed?.map((word, idx, arr) => {
+                                        const space = !(idx === arr.length - 1)
+                                        if (incorrectWords?.includes(word)) {
+                                            return (
+                                                <span className="font-bold" key={word}>
+                                                    {word}
+                                                    {space ? " " : ""}
+                                                </span>
+                                            )
+                                        }
+
+                                        return (
+                                            <span key={word}>
+                                                {word}
+                                                {space ? " " : ""}
+                                            </span>
+                                        )
+                                    })}
+                                </span>
+                                &quot;
                             </Link>
                         </p>
                         <p className="mt-3 text-sm sm:ml-6 sm:mt-0">
                             <Link
-                                className="whitespace-nowrap text-blue-700 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500"
+                                className="whitespace-nowrap text-blue-700 hover:text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-500"
                                 to={{ search: searchVerbatim }}
                             >
-                                Search for <span className="font-bold">{info.query_displayed}</span>{" "}
-                                instead
+                                Search for &quot;
+                                {orig?.map((word, idx, arr) => {
+                                    const space = !(idx === arr.length - 1)
+                                    if (correctWords?.includes(word)) {
+                                        return (
+                                            <span className="font-bold" key={word}>
+                                                {word}
+                                                {space ? " " : ""}
+                                            </span>
+                                        )
+                                    }
+
+                                    return (
+                                        <span key={word}>
+                                            {word}
+                                            {space ? " " : ""}
+                                        </span>
+                                    )
+                                })}
+                                &quot; instead
                                 <span aria-hidden="true"> &rarr;</span>
                             </Link>
                         </p>
