@@ -1,6 +1,5 @@
 import { InformationCircleIcon } from "@heroicons/react/20/solid"
 import { Link } from "@remix-run/react"
-import { useMemo } from "react"
 import type { SearchResponse } from "~/api/serpapi"
 
 export namespace SpellCheck {
@@ -10,31 +9,26 @@ export namespace SpellCheck {
 }
 
 export function SpellCheck({ info }: SpellCheck.Props) {
-    let searchVerbatim = useMemo(() => {
-        if (info.query_displayed) {
-            return new URLSearchParams({
-                q: info.query_displayed,
-                v: "true",
-            }).toString()
-        }
-
-        return null
-    }, [info.query_displayed])
-
-    let searchCorrected = useMemo(() => {
-        if (info.spelling_fix) {
-            return new URLSearchParams({
-                q: info.spelling_fix,
-            }).toString()
-        }
-
-        return null
-    }, [info.spelling_fix])
+    let searchVerbatim = null
+    let searchCorrected = null
 
     const orig = info.query_displayed?.split(" ")
     const fixed = info.spelling_fix?.split(" ")
     const incorrectWords = fixed?.filter(fix => !orig?.includes(fix))
     const correctWords = orig?.filter(fix => !fixed?.includes(fix))
+
+    if (info.query_displayed) {
+        searchVerbatim = new URLSearchParams({
+            q: info.query_displayed,
+            v: "true",
+        }).toString()
+    }
+
+    if (info.spelling_fix) {
+        searchCorrected = new URLSearchParams({
+            q: info.spelling_fix,
+        }).toString()
+    }
 
     if (!searchVerbatim || !searchCorrected) {
         return null
